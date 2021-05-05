@@ -1,0 +1,18 @@
+deepspeed --num_gpus=8 transformers/examples/seq2seq/run_seq2seq.py \
+      --model_name_or_path   t5-3b \
+      --do_eval --do_train \
+      --task summarization \
+      --train_file train_0802.csv \
+      --validation_file val_0802.csv \
+      --output_dir ./model \
+      --overwrite_output_dir \
+      --per_device_train_batch_size=8 \
+      --per_device_eval_batch_size=16 \
+      --eval_accumulation_steps=10 \
+      --text_column description \
+      --max_source_length 364 \
+      --summary_column name \
+      --max_target_length 60 \
+      --val_max_target_length 60 --evaluation_strategy steps \
+      --gradient_accumulation_steps 1 --num_train_epochs=8  \
+      --load_best_model_at_end --save_steps 250 --logging_steps 250  --warmup_steps 20 --learning_rate 5e-5 --adafactor --save_total_limit 2 --fp16 --fp16_backend amp --deepspeed ds_config.json
