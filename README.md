@@ -26,7 +26,7 @@ In this part, there were too many different things tried, so I just kept here th
 
 The base models used for this were:
 
-* **BART-LARGE** ![Alt text](imgs/bart.jpg?raw=True "BART")
+* **BART-LARGE** ![Alt text](imgs/bart.jpg?width=50&height=50 "BART")
 
 The performance of the model itself was not the best, as it sometimes produces strange names. However, it was improved using [Population Based Training](https://deepmind.com/blog/article/population-based-training-neural-networks). The main script used for this is [final_train_summarizer.py](final_train_summarizer.py), in which I use Ray's PBT implementation as an integration to Transformers' Trainer. For further improving this model, I decided to re-train its language model, that is, emulate BART's pre-training setup (partially) to help it better learn ZARA data's language distribution, and therefore be able to perform better on the generation step. Texts were corrupted using the functions in [utils_bart_perturbation.py](utils_bart_perturbation.py) with the script [create_data_bart.py](create_data_bart.py).
 
