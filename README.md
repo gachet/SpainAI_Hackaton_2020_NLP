@@ -22,8 +22,12 @@ After getting more data to enrich the dataset, I perform a cleaning process, in 
 
 In this part, there were too many different things tried, so I just kept here the most relevant ones, those which really helped me to improve the score in the Hackaton. The following diagram summarizes the main parts of this whole process. A I explain these different modelling phases, I'll also refer to the scripts I used for training.
 
-![Alt text](imgs/NLPMODELS.png?raw=True "Data Modelling Process")
+![Alt text](imgs/nlpmodels.png?raw=True "Data Modelling Process")
 
 The base models used for this were:
 
-* **BART**: The performance of the model itself was not the best, as it sometimes produces strange names. However, it was improved using [Population Based Training](https://deepmind.com/blog/article/population-based-training-neural-networks). The main script used for this is [final_train_summarizer.py](final_train_summarizer.py), in which I use Ray's PBT implementation as an integration to Transformers' Trainer. For further improving this model, I decided to re-train its language model, that is, emulate BART's pre-training setup (partially) to help it better learn ZARA data's language distribution, and therefore be able to perform better on the generation step. Texts were corrupted using [utils_bart_perturbation.py](utils_bart_perturbation.py)
+* **BART-LARGE** ![Alt text](imgs/bart.jpg?raw=True "BART")
+
+The performance of the model itself was not the best, as it sometimes produces strange names. However, it was improved using [Population Based Training](https://deepmind.com/blog/article/population-based-training-neural-networks). The main script used for this is [final_train_summarizer.py](final_train_summarizer.py), in which I use Ray's PBT implementation as an integration to Transformers' Trainer. For further improving this model, I decided to re-train its language model, that is, emulate BART's pre-training setup (partially) to help it better learn ZARA data's language distribution, and therefore be able to perform better on the generation step. Texts were corrupted using the functions in [utils_bart_perturbation.py](utils_bart_perturbation.py) with the script [create_data_bart.py](create_data_bart.py).
+
+* **T5-LARGE**: This was the model that achieved the best performance among all the individual trained models. It has the peculiarity, shared with Pegasus, that it works much better with Adafactor as the optimizer than with AdamW. 
