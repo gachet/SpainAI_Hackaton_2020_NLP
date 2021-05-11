@@ -14,6 +14,16 @@ My solution can be summarized in the following diagrams, which I will explain st
 
 The first step I took for solving this problem was to get more data from ZARA. For that, I used [zara_crawler.py](zara_crawler.py), which was later updated to [new_zara_crawler.py](new_zara_crawler.py) due to changes in the webpage. These scripts receive a link from a ZARA webpage (for example, for Zara Spain it would be https://www.zara.com/es/en/) and try to search inside each sublink (that represent a product subcategory) for products, getting descriptions and names for those. The crawler is developed using BeautifulSoup and raw requests.
 As some categories are not correctly retrieved with this crawler, such as Zara home product pages, I used [another script](crawl_more_zara.py) for scrapping individual links, each representing a products page.
-After getting more data to enrich the dataset, I perform a cleaning process, in which I get rid of expressions that can be detrimental for models, such as the height of the models, warnings, promotions expressions, etc. After that, I remove full duplicates (duplicates in name and description). This whole process is summarized in the following diagram.
+After getting more data to enrich the dataset, I perform a cleaning process, in which I get rid of expressions that can be detrimental for models, such as the height of the models, warnings, promotions expressions, etc. After that, I remove full duplicates (duplicates in name and description). This final part is developed in [process_zara_data.py](process_zara_data.py) This whole process is summarized in the following diagram.
 
 ![Alt text](imgs/zara_data.png?raw=true "Data Preparation Process")
+
+### MODELLING PROCESS
+
+In this part, there were too many different things tried, so I just kept here the most relevant ones, those which really helped me to improve the score in the Hackaton. The following diagram summarizes the main parts of this whole process. A I explain these different modelling phases, I'll also refer to the scripts I used for training.
+
+![Alt text](imgs/NLPMODELS.png?raw=True "Data Modelling Process")
+
+The base models used for this were:
+
+* **BART**: The performance of the model itself was not the best, as it sometimes produces strange names. However, it was improved using [Population Based Training](https://deepmind.com/blog/article/population-based-training-neural-networks). The main script used for this is [final_train_summarizer.py](final_train_summarizer.py), in which I use Ray's PBT implementation as an integration to Transformers' Trainer. For further improving this model, I decided to re-train its language model, that is, emulate BART's pre-training setup (partially) to help it better learn ZARA data's language distribution, and therefore be able to perform better on the generation step. Texts were corrupted using [utils_bart_perturbation.py](utils_bart_perturbation.py)

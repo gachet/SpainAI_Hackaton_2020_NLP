@@ -1,0 +1,2 @@
+python -u  basic_training.py --model facebook/bart-large --output_dir bart_lm --batch_size 8 --eval_batch_size 16 \
+                             --grad_acc_steps 32 --num_epochs 3 --lr 7e-05 --save_steps 100 

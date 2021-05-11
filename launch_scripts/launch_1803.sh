@@ -1,0 +1,35 @@
+python -u  ./folder_aws/transformers/examples/seq2seq/run_seq2seq.py \
+      --model_name_or_path  pegasus_2903/checkpoint-225 \
+      --do_train --do_eval \
+      --train_file train_2903.csv \
+      --validation_file val_2903.csv \
+      --output_dir pegasus_2903 \
+      --text_column description \
+      --summary_column name --task summarization \
+      --overwrite_output_dir \
+      --per_device_train_batch_size=8 \
+      --per_device_eval_batch_size=8 \
+      --eval_accumulation_steps=10 \
+      --max_source_length 256 \
+      --max_target_length 60 \
+      --val_max_target_length 60 --evaluation_strategy steps \
+      --gradient_accumulation_steps 64 --num_train_epochs=20 \
+      --load_best_model_at_end --save_steps 75 --logging_steps 75  --learning_rate 7e-5 --adafactor &
+wait $!
+python -u ./folder_aws/transformers/examples/seq2seq/run_seq2seq.py \
+      --model_name_or_path  facebook/bart-large \
+      --do_train --do_eval \
+      --train_file train_2903.csv \
+      --validation_file val_2903.csv \
+      --output_dir bart_2903 \
+      --text_column description \
+      --summary_column name --task summarization \
+      --overwrite_output_dir \
+      --per_device_train_batch_size=8 \
+      --per_device_eval_batch_size=16 \
+      --eval_accumulation_steps=10 \
+      --max_source_length 364 \
+      --max_target_length 60 \
+      --val_max_target_length 60 --evaluation_strategy steps \
+      --gradient_accumulation_steps 64 --num_train_epochs=20 \
+      --load_best_model_at_end --save_steps 75 --logging_steps 75  --learning_rate 5e-5
