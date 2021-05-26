@@ -22,7 +22,7 @@ After getting more data to enrich the dataset, I perform a cleaning process, in 
 
 In this part, there were too many different things tried, so I just kept here the most relevant ones, those which really helped me to improve the score in the Hackaton. The following diagram summarizes the main parts of this whole process. A I explain these different modelling phases, I'll also refer to the scripts I used for training.
 
-![Alt text](imgs/nlpmodels.png?raw=True "Data Modelling Process")
+![Alt text](imgs/NLPMODELS.png?raw=True "Data Modelling Process")
 
 The base models used for this were:
 
